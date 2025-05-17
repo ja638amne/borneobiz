@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture - BorneoBiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1920px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 35px;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 388px;
+            object-fit: cover;
+        }
+
+        .title-section {
+            background: #5E1D1D;
+            padding: 20px;
+            color: white;
+        }
+
+        .title-section h1 {
+            font-size: 32px;
+            margin-left: 77px;
+        }
+
+        .main-content {
+            background: #ffffff;
+            padding: 40px;
+            min-height: calc(100vh - 388px);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 0 40px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-category {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #5E1D1D;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: black;
+        }
+
+        .product-price {
+            font-size: 24px;
+            color: #B35E5E;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .add-to-cart {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #B35E5E;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 7px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #8B4848;
+        }
+
+        .cart-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .sorting-checklist {
+            background: white;
+            padding: 20px;
+            margin: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .sorting-checklist h3 {
+            margin-bottom: 15px;
+            color: #5E1D1D;
+        }
+
+        .sorting-checklist label {
+            display: inline-block;
+            margin-right: 20px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .sorting-checklist input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        @media (max-width: 1600px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sorting-checklist label {
+                display: block;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Reset and Base Styles */
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: filter 0.3s ease;
+    }
+
+    .container.dimmed {
+        filter: brightness(50%);
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+        position: fixed;
+        left: -300px;
+        top: 0;
+        width: 300px;
+        height: 100vh;
+        background: white;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        transition: left 0.3s ease;
+        z-index: 1001;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: none;
+        z-index: 1000;
+        transition: background 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+
+    .sidebar-header {
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .close-sidebar {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .sidebar-menu {
+        padding: 20px;
+    }
+
+    .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .menu-item:hover {
+        background: #f5f5f5;
+    }
+
+    .menu-item img {
+        width: 24px;
+        height: 24px;
+        margin-right: 15px;
+    }
+
+    .menu-item-text {
+        flex: 1;
+        font-size: 16px;
+    }
+
+    .menu-item-arrow {
+        font-size: 20px;
+    }
+
+    /* URL Bar */
+    .url-bar {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #f8f8f8;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .url-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        background: white;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin: 0 10px;
+        border: 1px solid #ddd;
+    }
+
+    .url {
+        flex: 1;
+        margin: 0 8px;
+        color: #333;
+    }
+
+    .back-btn, .menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        overflow: hidden;
+    }
+
+    .carousel {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .carousel-item {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+        display: none;
+    }
+
+    .carousel-item.active {
+        opacity: 1;
+        visibility: visible;
+        display: block;
+    }
+
+    .hero-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.1);
+        transition: opacity 1s ease-in-out;
+    }
+
+    .carousel-item.active .hero-image {
+        transform: scale(1);
+    }
+
+    .hero-title {
+        position: absolute;
+        bottom: 40px;
+        left: 40px;
+        color: white;
+        font-size: 2.5em;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        z-index: 2;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .carousel-item.active .hero-title {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .carousel-dots {
+            position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 3;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .dot.active {
+        background: white;
+    }
+
+    /* Navigation */
+    .nav-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: white;
+        border-bottom: 1px solid #ddd;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+
+    .nav-bar.scrolled {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar-btn, .search-btn, .cart-btn, .profile-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+        padding: 12px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-btn:hover, .search-btn:hover, .cart-btn:hover, .profile-btn:hover {
+        background: #f0f0f0;
+        transform: translateY(-2px);
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        margin: 0 30px;
+        position: relative;
+    }
+
+    .search-container input {
+        width: 100%;
+        padding: 12px 45px 12px 20px;
+        border: 2px solid #eee;
+        border-radius: 25px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .search-container input:focus {
+        border-color: #5E1D1D;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(94, 29, 29, 0.1);
+    }
+
+    .search-btn {
+        position: absolute;
+        right: 5px;
+        padding: 8px;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .nav-btn {
+        padding: 10px 20px;
+        border: none;
+        background: none;
+        color: #333;
+        font-weight: 500;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    /* New styles for home button */
+    .nav-btn.shop {
+        background-color: #5E1D1D;
+        color: white;
+        border-radius: 20px;
+        box-shadow: 0 2px 4px rgba(94, 29, 29, 0.2);
+    }
+
+    .nav-btn.nav-btn.shop:hover:hover {
+        background-color: #4a1717;
+        transform: translateY(-2px);
+    }
+
+    .nav-btn.shop::after {
+        display: none;
+    }
+    
+    /* End of new styles */
+    .nav-btn::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background: #5E1D1D;
+        transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover::after {
+        width: 100%;
+        left: 0;
+    }
+
+    .nav-right {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .cart-btn, .profile-btn {
+        position: relative;
+    }
+
+    .cart-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: #5E1D1D;
+        color: white;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 10px;
+    }
+
+    /* Featured Products */
+    .featured-products {
+        display: flex;
+        justify-content: space-between;
+        padding: 40px;
+        gap: 20px;
+    }
+
+    .product-card {
+        flex: 1;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    /* Flash Sales */
+    .flash-sales {
+        padding: 40px;
+        position: relative;
+    }
+
+    .flash-sales-badge {
+        position: absolute;
+        top: -10px;
+        left: 40px;
+        background: #B35E5E;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-weight: bold;
+    }
+
+    .flash-sales-container {
+        background: #f8f8f8;
+        padding: 30px;
+        border-radius: 12px;
+    }
+
+    .flash-sales-container h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #5E1D1D;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .product-item {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+
+    .product-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .product-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .product-info {
+        padding: 15px;
+    }
+
+    .product-info p {
+        margin-bottom: 10px;
+        font-size: 0.9em;
+        color: #333;
+    }
+
+    .price-tag {
+        height: 4px;
+        background: #5E1D1D;
+        width: 40%;
+        border-radius: 2px;
+    }
+
+        /* Footer */
+        .footer {
+        background: #5E1D1D;
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .footer-content {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .share-url {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        border-radius: 8px;
+        margin: 20px 0;
+    }
+
+    .share-url span {
+        margin-right: 10px;
+    }
+
+    .copy-btn {
+        background: white;
+        color: #5E1D1D;
+        border: none;
+        padding: 5px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .terms, .privacy {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-size: 0.9em;
+        cursor: pointer;
+    }
+
+    .terms:hover, .privacy:hover {
+        color: white;
+        text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .product-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .product-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .featured-products {
+            flex-direction: column;
+        }
+        
+        .hero-title {
+            font-size: 2em;
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .search-container {
+            margin: 0 10px;
+        }
+
+        .nav-bar {
+            padding: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            order: 3;
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .nav-btn {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .product-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .nav-bar {
+            padding: 8px;
+        }
+
+        .nav-links {
+            gap: 5px;
+        }
+
+        .nav-btn {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+        
+        .hero-title {
+            font-size: 1.5em;
+        }
+
+        .search-container input {
+            display: none;
+        }
+    }
+
+    /* Terms of Service Modal */
+    .terms-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+    }
+
+    .terms-content {
+        position: relative;
+        background-color: white;
+        margin: 5% auto;
+        padding: 20px;
+        width: 80%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .terms-content h2 {
+        color: #5E1D1D;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .terms-content p {
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .terms-content ol {
+        margin-left: 20px;
+        margin-bottom: 15px;
+    }
+
+    .terms-content li {
+        margin-bottom: 10px;
+    }
+
+    .close-terms {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #5E1D1D;
+    }
+
+    @media (max-width: 768px) {
+        .terms-content {
+            width: 95%;
+            margin: 10% auto;
+        }
+    }
+
+    </style>
+</head>
+<body>
+       <!-- Hero Section -->
+       <div class="hero-section">
+        <div class="carousel">
+            <div class="carousel-item active">
+                <img src="banner1.jpg" alt="Borneo landscape" class="hero-image">
+                <h1 class="hero-title">Bringing Sarawak's Best to the World</h1>
+            </div>
+            <div class="carousel-item">
+                <img src="banner2.webp" alt="Sarawak culture" class="hero-image">
+                <h1 class="hero-title">Experience Authentic Sarawak Culture</h1>
+            </div>
+            <div class="carousel-item">
+                <img src="banner3.webp" alt="Local products" class="hero-image">
+                <h1 class="hero-title">Discover Local Treasures</h1>
+            </div>
+            
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+    <script>
+        let slideIndex = 0;
+        showSlides();
+        
+        function showSlides() {
+            const slides = document.querySelectorAll('.carousel-item');
+            const dots = document.querySelectorAll('.dot');
+            
+            slides.forEach(slide => {
+                slide.style.transition = 'opacity 0.8s ease-in-out';
+                slide.classList.remove('active');
+            });
+            
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            
+            slides[slideIndex - 1].classList.add('active');
+            dots[slideIndex - 1].classList.add('active');
+            
+            setTimeout(showSlides, 3000);
+        }
+    </script>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <img src="logo.png" alt="Logo" width="75">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for products...">
+            <button class="search-btn" onclick="searchProducts()">
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149852.png" alt="Search" width="20">
+            </button>
+            <script>
+                function searchProducts() {
+                    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                    const products = document.querySelectorAll('.product-card');
+                    
+                    products.forEach(product => {
+                        const title = product.querySelector('.product-title').textContent.toLowerCase();
+                        if (title.includes(searchTerm)) {
+                            product.style.display = 'block';
+                            product.scrollIntoView({behavior: 'smooth'});
+                        } else {
+                            product.style.display = 'none';
+                        }
+                    });
+                }
+
+                // Also trigger search on Enter key
+                document.getElementById('searchInput').addEventListener('keyup', function(event) {
+                    if (event.key === 'Enter') {
+                        searchProducts();
+                    }
+                });
+            </script>
+        </div>
+        <div class="nav-links">
+            <button class="nav-btn home" onclick="window.location.href='index.html'">Home</button>
+            <button class="nav-btn shop" onclick="window.location.href='ar.html'">Shop</button>
+            <button class="nav-btn contact" onclick="window.location.href='contact.html'">Contact Us</button>
+        </div>
+        <div class="nav-right">
+            <button class="cart-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/833/833314.png" alt="Cart" width="24" onclick="window.location.href='cart.html'">
+                <span class="cart-badge">0</span>
+            </button>
+            <button class="profile-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Profile" width="24" onclick="window.location.href='profile.html'">
+            </button>
+        </div>
+    </nav>
+
+
+    <div class="sorting-checklist">
+        <h3>Categories:</h3>
+        <label><input type="radio" name="sort-category" class="sort-category" value="ALL" checked>All</label>
+        <label><input type="radio" name="sort-category" class="sort-category" value="AGRICULTURE">Agriculture</label>
+        <label><input type="radio" name="sort-category" class="sort-category" value="TOURISM">Tourism</label>
+        <label><input type="radio" name="sort-category" class="sort-category" value="MANUFACTURE">Manufacture</label>
+    </div>
+
+    <div class="main-content">
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card" data-category="TOURISM" data-price="88.80">
+                <span class="product-category">Tourism</span>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXb_bnyUQNcHebO4HOs4t4gFqxIB9k6E_3gg&s" alt="Iban Traditional Dance Trial" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Iban Traditional Dance Trial</h3>
+                    <p class="product-price">RM88.80</p>
+                    <button class="add-to-cart">
+                        <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="8" cy="21" r="1"/>
+                            <circle cx="19" cy="21" r="1"/>
+                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                        </svg>
+                        Add to cart
+                    </button>
+                </div>
+            </div>
+
+
+                    
+                    <div class="product-card" data-category="TOURISM" data-price="560.00">
+                        <span class="product-category">Tourism</span>
+                        <img src="https://www.amazingborneo.com/img/sarawak-tours/sarawak-kuching.jpg" alt="Kuching Staycation" class="product-image">
+                            <div class="product-info">
+                            <h3 class="product-title">Kuching Staycation 3D2N</h3>
+                            <p class="product-price">RM560.00</p>
+                                <button class="add-to-cart">
+                                <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="8" cy="21" r="1"/>
+                                    <circle cx="19" cy="21" r="1"/>
+                                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                </svg>
+                                    Add to cart
+                                </button>
+                            </div>
+                        </div>
+
+                        
+                        <div class="product-card" data-category="MANUFACTURE" data-price="56.00">
+                            <span class="product-category">Manufacture</span>
+                            <img src="https://images.food52.com/C18MUIyFXgXHyI-SfbqNDlWU1io=/1200x900/103b54ba-45fd-47d5-84f1-d9e3ed1245a8--2019-1022_kek-lapis-sarawak_3x2_rocky-luten_028.jpg" alt="Colour Deluxe" class="product-image">
+                                <div class="product-info">
+                                <h3 class="product-title">Colour Deluxe Kek Lapis</h3>
+                                <p class="product-price">RM56.00</p>
+                                    <button class="add-to-cart">
+                                    <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="8" cy="21" r="1"/>
+                                        <circle cx="19" cy="21" r="1"/>
+                                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                    </svg>
+                                        Add to cart
+                                    </button>
+                                </div>
+                            </div>
+
+                        <div class="product-card" data-category="TOURISM" data-price="280.00">
+                            <span class="product-category">Tourism</span>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPJkWy75wQFspsxwDjMQUvclK4ZaICK1vtVoCbvRVsJOGVYID7spxZRgMVrMv_51w1xCk&usqp=CAU" alt="Kuching Holiday" class="product-image">
+                                <div class="product-info">
+                                <h3 class="product-title">Kuching Holiday HAPPY Resort</h3>
+                                <p class="product-price">RM280.00</p>
+                                    <button class="add-to-cart">
+                                    <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="8" cy="21" r="1"/>
+                                        <circle cx="19" cy="21" r="1"/>
+                                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                    </svg>
+                                        Add to cart
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="product-card" data-category="MANUFACTURE" data-price="280.00">
+                                <span class="product-category">Manufacture</span>
+                                <img src="https://www.degrocery.com/de-grocery/2021/03/CSH-Santan-Sarawak-50g.jpg" alt="Sarawak Santan" class="product-image">
+                                    <div class="product-info">
+                                    <h3 class="product-title">Sarawak Santan Bulk</h3>
+                                    <p class="product-price">RM280.00</p>
+                                        <button class="add-to-cart">
+                                        <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <circle cx="8" cy="21" r="1"/>
+                                            <circle cx="19" cy="21" r="1"/>
+                                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                        </svg>
+                                            Add to cart
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="product-card" data-category="TOURISM" data-price="4.00">
+                                    <span class="product-category">Tourism</span>
+                                    <img src="https://apicms.thestar.com.my/uploads/images/2024/11/15/3018443.webp" alt="Permai Blue" class="product-image">
+                                        <div class="product-info">
+                                        <h3 class="product-title">Permai Blue Lake Ticket</h3>
+                                        <p class="product-price">RM4.00</p>
+                                            <button class="add-to-cart">
+                                            <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <circle cx="8" cy="21" r="1"/>
+                                                <circle cx="19" cy="21" r="1"/>
+                                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                            </svg>
+                                                Add to cart
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="product-card" data-category="TOURISM" data-price="400.00">
+                                        <span class="product-category">Tourism</span>
+                                        <img src="https://bimp-eaga.asia/sites/default/files/2020-03/iStock-1203378270.jpg" alt="Sarawak Landmark" class="product-image">
+                                            <div class="product-info">
+                                            <h3 class="product-title">Sarawak Landmark Tour</h3>
+                                            <p class="product-price">RM400.00</p>
+                                                <button class="add-to-cart">
+                                                <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                    <circle cx="8" cy="21" r="1"/>
+                                                    <circle cx="19" cy="21" r="1"/>
+                                                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                </svg>
+                                                    Add to cart
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="product-card" data-category="AGRICULTURE" data-price="4.00">
+                                            <span class="product-category">Agriculture</span>
+                                            <img src="https://pasarhub.my/wp-content/uploads/2020/11/Nenas-MD2-e1594788408366.jpg" alt="Marudi Sarawak Nanas besar" class="product-image">
+                                                <div class="product-info">
+                                                <h3 class="product-title">Marudi Sarawak Nanas besar</h3>
+                                                <p class="product-price">RM4.00</p>
+                                                    <button class="add-to-cart">
+                                                    <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                        <circle cx="8" cy="21" r="1"/>
+                                                        <circle cx="19" cy="21" r="1"/>
+                                                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                    </svg>`
+                                                        Add to cart
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        <div class="product-card" data-category="TOURISM" data-price="350.00">
+                                            <span class="product-category">Tourism</span>
+                                            <img src="https://cdn-v2.theculturetrip.com/400x225/wp-content/uploads/2018/05/shutterstock_544624186.jpg" alt="Mountain Expedition" class="product-image">
+                                                <div class="product-info">
+                                                <h3 class="product-title">Mountain Expedition Group Tour</h3>
+                                                <p class="product-price">RM350.00</p>
+                                                    <button class="add-to-cart">
+                                                    <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                        <circle cx="8" cy="21" r="1"/>
+                                                        <circle cx="19" cy="21" r="1"/>
+                                                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                    </svg>
+                                                        Add to cart
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="product-card" data-category="AGRICULTURE" data-price="10.00">
+                                                <span class="product-category">Agriculture</span>
+                                                <img src="https://cdn.store-assets.com/s/213596/i/13905164.jpeg?width=480" alt="Lada Hitam Local plant biji" class="product-image">
+                                                    <div class="product-info">
+                                                    <h3 class="product-title">Lada Hitam Local plant biji</h3>
+                                                    <p class="product-price">RM10.00</p>
+                                                        <button class="add-to-cart">
+                                                        <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                            <circle cx="8" cy="21" r="1"/>
+                                                            <circle cx="19" cy="21" r="1"/>
+                                                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                        </svg>`
+                                                            Add to cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            <div class="product-card" data-category="MANUFACTURE" data-price="28.50">
+                                                <span class="product-category">Manufacture</span>
+                                                <img src="https://cdn1.npcdn.net/userfiles/27135/image/category2.jpg" alt="Chocolate Coffee" class="product-image">
+                                                    <div class="product-info">
+                                                    <h3 class="product-title">Chocolate Coffee Indulgence</h3>
+                                                    <p class="product-price">RM28.50</p>
+                                                        <button class="add-to-cart">
+                                                        <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                            <circle cx="8" cy="21" r="1"/>
+                                                            <circle cx="19" cy="21" r="1"/>
+                                                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                        </svg>
+                                                            Add to cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-card" data-category="AGRICULTURE" data-price="6.00">
+                                                    <span class="product-category">Agriculture</span>
+                                                    <img src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-lnsq1pvz63pja1" alt="Jagung manis Engkau Arau" class="product-image">
+                                                        <div class="product-info">
+                                                        <h3 class="product-title">Jagung manis Engkau Arau</h3>
+                                                        <p class="product-price">RM6.00</p>
+                                                            <button class="add-to-cart">
+                                                            <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                <circle cx="8" cy="21" r="1"/>
+                                                                <circle cx="19" cy="21" r="1"/>
+                                                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                            </svg>`
+                                                                Add to cart
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                <div class="product-card" data-category="TOURISM" data-price="6.00">
+                                                    <span class="product-category">Tourism</span>
+                                                    <img src="https://sarawakgo.com/wp-content/uploads/2023/02/A9.jpg" alt="Fairy Cave Tour 1 Day" class="product-image">
+                                                        <div class="product-info">
+                                                        <h3 class="product-title">Fairy Cave Tour 1 Day</h3>
+                                                        <p class="product-price">RM6.00</p>
+                                                            <button class="add-to-cart">
+                                                            <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                <circle cx="8" cy="21" r="1"/>
+                                                                <circle cx="19" cy="21" r="1"/>
+                                                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                            </svg>
+                                                                Add to cart
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="product-card" data-category="AGRICULTURE" data-price="3.50">
+                                                        <span class="product-category">Agriculture</span>
+                                                        <img src="https://cdn.blueberriesconsulting.com/2024/12/Grupo-Gloria-El-proximo-ano-podriamos-llegar-a-China-vemos-opciones-para-enviar-arandanos-y-uvas-03.jpg" alt="Fresh berry local" class="product-image">
+                                                            <div class="product-info">
+                                                            <h3 class="product-title">Fresh berry local</h3>
+                                                            <p class="product-price">RM3.50</p>
+                                                                <button class="add-to-cart">
+                                                                <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                    <circle cx="8" cy="21" r="1"/>
+                                                                    <circle cx="19" cy="21" r="1"/>
+                                                                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                </svg>`
+                                                                    Add to cart
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                    <div class="product-card" data-category="MANUFACTURE" data-price="20.00">
+                                                        <span class="product-category">Manufacture</span>
+                                                        <img src="https://daganghalal.blob.core.windows.net/25876/Product/1000x1000__11-1628744804507.png" alt="Sarawak Pepper" class="product-image">
+                                                            <div class="product-info">
+                                                            <h3 class="product-title">Sarawak Pepper</h3>
+                                                            <p class="product-price">RM20.00</p>
+                                                                <button class="add-to-cart">
+                                                                <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                    <circle cx="8" cy="21" r="1"/>
+                                                                    <circle cx="19" cy="21" r="1"/>
+                                                                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                </svg>
+                                                                    Add to cart
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="product-card" data-category="AGRICULTURE" data-price="10.00">
+                                                            <span class="product-category">Agriculture</span>
+                                                            <img src="https://www.manjafoods.com/cdn/shop/files/ladaputih_1200x1200.jpg?v=1715397316" alt="Sarawak white pepper bottle" class="product-image">
+                                                                <div class="product-info">
+                                                                <h3 class="product-title">Sarawak white pepper bottle</h3>
+                                                                <p class="product-price">RM10.00</p>
+                                                                    <button class="add-to-cart">
+                                                                    <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                        <circle cx="8" cy="21" r="1"/>
+                                                                        <circle cx="19" cy="21" r="1"/>
+                                                                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                    </svg>`
+                                                                        Add to cart
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="product-card" data-category="MANUFACTURE" data-price="120.00">
+                                                                <span class="product-category">Manufacture</span>
+                                                                <img src="https://s.alicdn.com/@sc04/kf/Hac9968d6e3df4c9095613f491764327ec.jpg" alt="Timber Wood Plank" class="product-image">
+                                                                    <div class="product-info">
+                                                                    <h3 class="product-title">Timber Wood Plank Sales</h3>
+                                                                    <p class="product-price">RM120.00</p>
+                                                                        <button class="add-to-cart">
+                                                                        <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                            <circle cx="8" cy="21" r="1"/>
+                                                                            <circle cx="19" cy="21" r="1"/>
+                                                                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                        </svg>
+                                                                            Add to cart
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="product-card" data-category="AGRICULTURE" data-price="25.00">
+                                                                    <span class="product-category">Agriculture</span>
+                                                                    <img src="https://www.borneofruitsfarm.com/wp-content/uploads/2024/01/Untitled-design-1.jpg" alt="Sarawak Melon" class="product-image">
+                                                                        <div class="product-info">
+                                                                        <h3 class="product-title">Sarawak Melon</h3>
+                                                                        <p class="product-price">RM25.00</p>
+                                                                            <button class="add-to-cart">
+                                                                            <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                                <circle cx="8" cy="21" r="1"/>
+                                                                                <circle cx="19" cy="21" r="1"/>
+                                                                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                            </svg>`
+                                                                                Add to cart
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                <div class="product-card" data-category="MANUFACTURE" data-price="8.50">
+                                                                    <span class="product-category">Manufacture</span>
+                                                                    <img src="https://www.b2bdaigor.com/media/catalog/product/cache/cf3f2243ef4940fd5c66f2ff035145ac/1/k/1kg_burung_bayan.jpg" alt="Sarawak Laksa" class="product-image">
+                                                                        <div class="product-info">
+                                                                        <h3 class="product-title">Sarawak Laksa Paste</h3>
+                                                                        <p class="product-price">RM8.50</p>
+                                                                            <button class="add-to-cart">
+                                                                            <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                                <circle cx="8" cy="21" r="1"/>
+                                                                                <circle cx="19" cy="21" r="1"/>
+                                                                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                            </svg>
+                                                                                Add to cart
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="product-card" data-category="AGRICULTURE" data-price="20.00">
+                                                                        <span class="product-category">Agriculture</span>
+                                                                        <img src="https://www.rakansarawak.com/v3/wp-content/uploads/2022/01/RO-5-6-1-055-U4-2022.jpg" alt="Mardi Warna 500g" class="product-image">
+                                                                            <div class="product-info">
+                                                                            <h3 class="product-title">Mardi Warna 500g</h3>
+                                                                            <p class="product-price">RM20.00</p>
+                                                                                <button class="add-to-cart">
+                                                                                <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                                    <circle cx="8" cy="21" r="1"/>
+                                                                                    <circle cx="19" cy="21" r="1"/>
+                                                                                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                                </svg>`
+                                                                                    Add to cart
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    <div class="product-card" data-category="MANUFACTURE" data-price="39.99">
+                                                                        <span class="product-category">Manufacture</span>
+                                                                        <img src="https://tangankraf.com/wp-content/uploads/2023/03/Kain-Sarung-Sarawak-Five-Tinified-3.jpg" alt="Batik" class="product-image">
+                                                                            <div class="product-info">
+                                                                            <h3 class="product-title">Batik Sarawak Clothes</h3>
+                                                                            <p class="product-price">RM39.99</p>
+                                                                                <button class="add-to-cart">
+                                                                                <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                                    <circle cx="8" cy="21" r="1"/>
+                                                                                    <circle cx="19" cy="21" r="1"/>
+                                                                                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                                </svg>
+                                                                                    Add to cart
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="product-card" data-category="AGRICULTURE" data-price="28.50">
+                                                                            <span class="product-category">Agriculture</span>
+                                                                            <img src="https://s3.tvstv.my/wp-content/uploads/2021/05/Beras-dan-Nasi-Merah.jpg" alt="Rice Kayan Local based 2kg" class="product-image">
+                                                                                <div class="product-info">
+                                                                                <h3 class="product-title">Rice Kayan Local based 2kg</h3>
+                                                                                <p class="product-price">RM28.50</p>
+                                                                                    <button class="add-to-cart">
+                                                                                    <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                                        <circle cx="8" cy="21" r="1"/>
+                                                                                        <circle cx="19" cy="21" r="1"/>
+                                                                                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                                    </svg>
+                                                                                        Add to cart
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="product-card" data-category="TOURISM" data-price="120.00">
+                                                                                <span class="product-category">Tourism</span>
+                                                                                <img src="https://pandupelancong.com/wp-content/uploads/2023/11/Rumah-Adat-dan-Kebudayaan-di-Kampung-Budaya.webp" alt="Culture Village" class="product-image">
+                                                                                    <div class="product-info">
+                                                                                    <h3 class="product-title">Culture Village Ticket</h3>
+                                                                                    <p class="product-price">RM120.00</p>
+                                                                                        <button class="add-to-cart">
+                                                                                        <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                                            <circle cx="8" cy="21" r="1"/>
+                                                                                            <circle cx="19" cy="21" r="1"/>
+                                                                                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                                        </svg>
+                                                                                            Add to cart
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                        <div class="product-card" data-category="MANUFACTURE" data-price="50.00">
+                                                                            <span class="product-category">Manufacture</span>
+                                                                            <img src="https://c8.alamy.com/comp/2BXRPTP/kuching-sarawak-malaysia-may-10-2020-belacan-shrimp-paste-of-cap-ayam-brand-in-a-packet-of-white-background-2BXRPTP.jpg" alt="Sarawak Belacan" class="product-image">
+                                                                                <div class="product-info">
+                                                                                <h3 class="product-title">Sarawak Belacan Brand</h3>
+                                                                                <p class="product-price">RM50.00</p>
+                                                                                    <button class="add-to-cart">
+                                                                                    <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                                                        <circle cx="8" cy="21" r="1"/>
+                                                                                        <circle cx="19" cy="21" r="1"/>
+                                                                                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                                                                                    </svg>
+                                                                                        Add to cart
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+
+            <!-- Rest of your products with added category spans... -->
+
+                    </div>
+                </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>Share this website to your friends!</p>
+                <div class="share-url">
+                    <span>www.BorneoBizSarawak.com</span>
+                    <button class="copy-btn">COPY</button>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="terms">Terms of Service</a>
+                    <a href="#" class="privacy">Privacy Policy</a>
+                </div>
+            </div>
+        </footer>
+
+    <script>
+        // Category filtering
+        document.querySelectorAll('.sort-category').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const selectedCategory = this.value;
+                const products = document.querySelectorAll('.product-card');
+                
+                products.forEach(product => {
+                    if (selectedCategory === product.dataset.category || selectedCategory === 'ALL') {
+                        product.style.display = 'block';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+                // Copy URL functionality
+                document.querySelector('.copy-btn').addEventListener('click', function() {
+            const url = 'www.BorneoBizSarawak.com';
+            navigator.clipboard.writeText(url).then(() => {
+                alert('URL copied to clipboard!');
+            });
+        });
+
+        // Initialize cart badge on page load
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const badge = document.querySelector('.cart-badge');
+            if (badge) {
+                badge.textContent = cart.length;
+            }
+        }
+
+        // Add event listeners to all add to cart buttons
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const product = this.closest('.product-card');
+                const productName = product.querySelector('.product-title').textContent;
+                const productPrice = product.querySelector('.product-price').textContent;
+                const productImage = product.querySelector('.product-image').src;
+                const productCategory = product.querySelector('.product-category').textContent;
+
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                
+                // Add the item to cart with quantity 1
+                const cartItem = {
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    category: productCategory,
+                    quantity: 1
+                };
+
+                cart.push(cartItem);
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartBadge();
+
+                // Show success message
+                alert('Item added to cart successfully!');
+            });
+        });
+
+        // Update cart badge on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+        });
+    </script>
+
+     <!-- Terms of Service Modal -->
+     <div id="termsModal" class="terms-modal">
+        <div class="terms-content">
+            <span class="close-terms">&times;</span>
+            <h2>Terms of Service</h2>
+            <p><strong>Effective Date: 1st April 2025</strong></p>
+            <p>Welcome to BorneoBizSarawak!</p>
+            <p>These Terms of Service ("Terms") govern your access to and use of BorneoBizSarawak ("the Website"), operated by BorneoBizSarawak ("we", "us", "our"). By accessing or using our Website, you agree to be bound by these Terms. If you do not agree, please do not use the Website.</p>
+
+            <ol>
+                <li><strong>Overview of Our Services</strong><br>
+                BorneoBizSarawak offers a platform where users can:
+                <ul>
+                    <li>Buy unique Sarawak products, including traditional crafts, local vegetables, and tourism packages.</li>
+                    <li>Add items to a shopping cart and select payment and shipping options.</li>
+                    <li>Track their purchase history.</li>
+                    <li>Create listings to sell their own Sarawak-related items.</li>
+                </ul>
+                </li>
+
+                <li><strong>Eligibility</strong><br>
+                You must be at least 18 years old or have parental consent to use this Website. By using our services, you confirm that you meet these requirements.</li>
+
+                <li><strong>Account Creation</strong><br>
+                To use certain features (like buying, selling, and tracking orders), you must create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.</li>
+
+                <li><strong>Buying and Selling</strong><br>
+                Buying: When you place an order, you agree to pay the listed price plus any applicable shipping and taxes.<br>
+                Selling: If you create a listing, you agree that your items are genuine and you have the right to sell them. You must describe your items accurately.<br>
+                We reserve the right to remove any listing that violates our policies or local laws.</li>
+
+                <li><strong>Payment and Shipping</strong><br>
+                We offer various payment methods at checkout. Once payment is confirmed, we will process your order based on the selected shipping method. Delivery times are estimates and may vary.</li>
+
+                <li><strong>Refunds and Returns</strong><br>
+                Refunds and return policies are subject to the individual seller's terms. Buyers and sellers are encouraged to resolve any disputes directly. We may assist in disputes but are not obligated to do so.</li>
+
+                <li><strong>Prohibited Activities</strong><br>
+                You agree not to:
+                <ul>
+                    <li>Use the Website for illegal purposes.</li>
+                    <li>Sell prohibited or illegal items.</li>
+                    <li>Engage in fraud or misrepresentation.</li>
+                    <li>Violate intellectual property rights.</li>
+                </ul>
+                We reserve the right to suspend or terminate your account for violations.</li>
+
+                <li><strong>Intellectual Property</strong><br>
+                All content on the Website, including text, graphics, logos, and images, is owned by BorneoBizSarawak or its licensors and protected by copyright and other laws. You may not use any content without our prior written permission.</li>
+
+                <li><strong>Limitation of Liability</strong><br>
+                We are not responsible for:
+                <ul>
+                    <li>User-posted content or listings.</li>
+                    <li>Transactions between users.</li>
+                    <li>Shipping delays or issues beyond our control.</li>
+                </ul>
+                Our Website is provided "as is" without warranties of any kind.</li>
+
+                <li><strong>Changes to Terms</strong><br>
+                We may update these Terms from time to time. When we do, we will revise the "Effective Date" above. Your continued use of the Website after changes means you accept the updated Terms.</li>
+
+                <li><strong>Contact Us</strong><br>
+                If you have any questions about these Terms, please contact us at JaneChuaRith@gmail.com.</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="terms-modal">
+        <div class="terms-content">
+            <span class="close-terms">&times;</span>
+            <h2>Privacy Policy</h2>
+            <p><strong>Effective Date: 1st April 2025</strong></p>
+            <p>Welcome to BorneoBizSarawak ("we", "us", "our").</p>
+            <p>We care about your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and protect your data when you use BorneoBizSarawak.</p>
+            <p>By using our website, you agree to the terms of this Privacy Policy.</p>
+
+            <ol>
+                <li><strong>Information We Collect</strong><br>
+                We may collect the following information:
+                <ul>
+                    <li>Account Information: When you create an account, we collect your name, email address, password, and contact details.</li>
+                    <li>Order Information: When you make a purchase or create a listing, we collect shipping addresses, billing information, and purchase history.</li>
+                    <li>Payment Information: Payment details are processed securely by our payment partners. We do not store full payment card details on our servers.</li>
+                    <li>Browsing Information: We collect information about how you use the Website, like the pages you view, your device type, and IP address.</li>
+                    <li>Communications: If you contact us, we collect the contents of your message and contact details.</li>
+                </ul>
+                </li>
+
+                <li><strong>How We Use Your Information</strong><br>
+                We use your information to:
+                <ul>
+                    <li>Provide, operate, and maintain our Website.</li>
+                    <li>Process transactions and manage orders.</li>
+                    <li>Communicate with you, including responding to support requests.</li>
+                    <li>Improve our Website and customer experience.</li>
+                    <li>Send you promotional offers (if you agree).</li>
+                    <li>Comply with legal obligations.</li>
+                </ul>
+                </li>
+
+                <li><strong>How We Share Your Information</strong><br>
+                We may share your information with:
+                <ul>
+                    <li>Service Providers: Companies that help us run our business, like payment processors and shipping companies.</li>
+                    <li>Sellers: If you purchase an item, necessary information (like your shipping address) may be shared with the seller.</li>
+                    <li>Legal Requirements: Authorities if required by law, or to protect our rights.</li>
+                </ul>
+                We do not sell your personal data to third parties.</li>
+
+                <li><strong>Cookies and Tracking</strong><br>
+                We use cookies and similar technologies to:
+                <ul>
+                    <li>Remember your preferences.</li>
+                    <li>Analyze Website traffic and improve our services.</li>
+                    <li>Offer you a better browsing experience.</li>
+                </ul>
+                You can control cookies through your browser settings.</li>
+
+                <li><strong>Security of Your Information</strong><br>
+                We implement security measures to protect your data. However, no system is 100% secure. We encourage you to keep your account password safe.</li>
+
+                <li><strong>Your Rights</strong><br>
+                You have rights regarding your personal data, including:
+                <ul>
+                    <li>Accessing the information we hold about you.</li>
+                    <li>Requesting corrections to inaccurate data.</li>
+                    <li>Requesting deletion of your data (in some cases).</li>
+                    <li>Opting out of promotional communications.</li>
+                </ul>
+                Contact us at JaneChuaRith@gmail.com to exercise your rights.</li>
+
+                <li><strong>Third-Party Links</strong><br>
+                Our Website may contain links to other websites. We are not responsible for the privacy practices of those websites.</li>
+
+                <li><strong>Changes to This Privacy Policy</strong><br>
+                We may update this Privacy Policy from time to time. We will post the new version on the Website and update the "Effective Date."</li>
+
+                <li><strong>Contact Us</strong><br>
+                If you have questions about this Privacy Policy, please contact us at JaneChuaRith@gmail.com.</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Terms of Service Modal functionality
+        const termsLink = document.querySelector('.terms');
+        const privacyLink = document.querySelector('.privacy');
+        const termsModal = document.getElementById('termsModal');
+        const privacyModal = document.getElementById('privacyModal');
+        const closeTerms = document.querySelectorAll('.close-terms');
+
+        termsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            termsModal.style.display = 'block';
+        });
+
+        privacyLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            privacyModal.style.display = 'block';
+        });
+
+        closeTerms.forEach(closeBtn => {
+            closeBtn.addEventListener('click', function() {
+                termsModal.style.display = 'none';
+                privacyModal.style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', function(e) {
+            if (e.target === termsModal) {
+                termsModal.style.display = 'none';
+            }
+            if (e.target === privacyModal) {
+                privacyModal.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
